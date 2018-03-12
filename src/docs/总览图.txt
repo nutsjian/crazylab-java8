@@ -1,0 +1,58 @@
+Java 集合类（java.util）
+------------------------------------------------------------------------------------------------------------------------
+1. Set
+    HashSet
+    TreeSet
+    LinkedHashSet
+    ConcurrentSkipListSet
+
+2. List
+    LinkedList（类）
+    ArrayList（类）
+    Vector（类）
+        Stack（Vector子类）
+    CopyOnWriteArrayList
+
+3. Map
+    HashMap
+    TreeMap
+    HashTable
+    ConcurrentSkipListMap
+    WeakHashMap
+    IdentityHashMap
+    EnumMap
+    LinkedHashMap
+
+4. Queue
+    ArrayQueue
+    BlockingQueue<I>
+    ArrayBlockingQueue
+    ConcurrentLinkedQueue
+    PriorityQueue
+    PriorityBlockingQueue
+    DelayQueue
+    SynchronousQueue
+
+    TransferQueue<I>
+    LinkedTransferQueue
+
+5. Deque
+    ArrayDeque
+    BlockingDeque
+    LinkedBlockingDeque
+    ConcurrentLinkedDeque
+
+Java 集合类（juc 包下）java.util.concurrent（多线程支持的集合类）
+------------------------------------------------------------------------------------------------------------------------
+1. Set
+
+
+解析
+------------------------------------------------------------------------------------------------------------------------
+Queue（队列）（先进先出）
+
+Stack（栈，没有迭代器）
+
+Deque（双端队列，支持迭代器）
+
+

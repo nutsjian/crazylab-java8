@@ -1,0 +1,55 @@
+原理：
+    循环数组，有两个指针 head、tail，不允许null值，空间不足的时候会自动扩容为原来 2 倍
+
+应用：
+    1. 可用作类似 Stack 的 FIFO（先进先出）
+    2. 可用作队列，队首加元素，队尾取元素
+
+实现：
+1. 初始容量必须是 2 的幂次方，且最低是 8
+    如果构造器传入的initCapacity = 4，则容量是 8；
+    如果构造器传入的initCapacity = 5，则容量是 8；
+    如果构造器传入的initCapacity = 9，则容量是 16；
+以上初始化容量是靠这段代码保证的：
+private void allocateElements(int numElements) {
+    int initialCapacity = MIN_INITIAL_CAPACITY;
+    // Find the best power of two to hold elements.
+    // Tests "<=" because arrays aren't kept full.
+    // 如果构造器传入的初始容量参数 > 8 （initialCapacity），则进行容量调整
+    if (numElements >= initialCapacity) {
+        initialCapacity = numElements;
+        initialCapacity |= (initialCapacity >>>  1);
+        initialCapacity |= (initialCapacity >>>  2);
+        initialCapacity |= (initialCapacity >>>  4);
+        initialCapacity |= (initialCapacity >>>  8);
+        initialCapacity |= (initialCapacity >>> 16);
+        initialCapacity++;
+
+        if (initialCapacity < 0)   // Too many elements, must back off
+            initialCapacity >>>= 1;// Good luck allocating 2 ^ 30 elements
+    }
+    elements = new Object[initialCapacity];
+}
+
+
+2. 添加元素的时候自动扩容的检查
+add() 方法
+if ( (tail = (tail + 1) & (elements.length - 1)) == head)
+    doubleCapacity();
+其中 tail 指向下一个待插入的元素的位置，我们举个例子：
+    初始容量为 8，head = 0，tail = 0
+    add("a")    tail = 0，head = 0，(tail + 1) & (elements.length - 1) = 1 & 7 = 1
+    add("b")    tail = 1，head = 0，(tail + 1) & (elements.length - 1) = 2 & 7 = 2
+    add("c")    tail = 2，head = 0，(tail + 1) & (elements.length - 1) = 3 & 7 = 3
+    add("d")    tail = 3，head = 0，(tail + 1) & (elements.length - 1) = 4 & 7 = 4
+    add("e")    tail = 4，head = 0，(tail + 1) & (elements.length - 1) = 5 & 7 = 5
+    add("f")    tail = 5，head = 0，(tail + 1) & (elements.length - 1) = 6 & 7 = 6
+    add("g")    tail = 6，head = 0，(tail + 1) & (elements.length - 1) = 7 & 7 = 7
+    add("h")    tail = 7，head = 0，(tail + 1) & (elements.length - 1) = 8 & 7 = 0    扩容，elements.length 将变成 16
+    add("i")    tail = 8，head = 0，(tail + 1) & (elements.length - 1) = 9 & 16 = 9
+    add("j")    tail = 9，head = 0，(tail + 1) & (elements.length - 1) = 10 & 16 = 10
+
+addFirst()
+elements[head = (head - 1) & (elements.length - 1)] = e;
+if (head == tail)
+    doubleCapacity();
