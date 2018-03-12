@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.crazylab</groupId>
+    <artifactId>crazylab-java8</artifactId>
+    <packaging>jar</packaging>
+    <version>0.0.1</version>
+    <name>crazylab-java8-parent</name>
+    <url>http://maven.apache.org</url>
+    
+    <description>The crazylab java8 project</description>
+
+    <repositories>
+        <repository>
+            <id>aliyun-maven</id>
+            <name>aliyun-maven-repo</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+        <!--<repository>
+            <id>minorfish</id>
+            <name>minorfish-repo</name>
+            <url>http://192.168.2.241:8081/nexus/content/repositories/releases/</url>
+        </repository>-->
+    </repositories>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skip_maven_deploy>true</skip_maven_deploy>
+        
+        <vertx.version>3.5.0</vertx.version>
+        <druid.version>1.0.28</druid.version>
+        <mysql-connector-java.version>5.1.37</mysql-connector-java.version>
+        <pagehelper.version>4.1.6</pagehelper.version>
+        <guava.version>21.0</guava.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <lombok.version>1.16.14</lombok.version>
+    </properties>
+</project>

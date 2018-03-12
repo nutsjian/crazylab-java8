@@ -1,0 +1,27 @@
+ArrayList:
+    1. 本质是一个 Object[] elementData，所有数据都在同一个地址上（内存地址），就是 elementData 的内存地址
+    2. add 方法
+        2.1 add(E e);       直接在元素最后面添加一个元素（添加之前会检查 capacity）
+        2.2 add(int index, E e);    先检查 index 是否越界，在检查 capacity，然后把元素插入到指定位置，后面的元素会通过 System.arrayCopy 进行全部位移
+        2.3 addAll(Collections<E> e);   检查 capacity，然后把 集合元素追加到原来的数组后面，System.arrayCopy
+        2.4 addAll(int index, Collections<E> e);
+
+
+LinkedList:
+    1. 本质是一个双向链表，每个结点是 Node 对象，因此每个元素都有一个自己的地址（内存地址）
+    2. add 方法
+        2.1 add(E e)    直接在最后面加上该元素，时间复杂度 O(1)
+        2.2 add(int index, E e);    需要先找到 index 这个位置的元素（这个需要遍历），然后把该元素插入到找到的这个元素前面（这个无须让其它元素位移，只要改变结点指针）
+        2.3 addAll(Collections<E> e);
+        2.4 addAll(int index, Collections<E> e);
+        2.5 addFirst();
+        2.6 addLast();
+    3. remove 方法
+        3.1 remove()
+        3.2 removeFirst()
+        3.3 removeLast()
+        3.4 remove(int index)
+        3.5
+
+Vector:
+    1. 本质是一个 Object[] elementData，所有数据都在同一个地址上
