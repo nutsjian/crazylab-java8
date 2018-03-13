@@ -23,20 +23,20 @@ Java 集合类（java.util）
     EnumMap
     LinkedHashMap
 
-4. Queue
+4. Queue（队列，
     ArrayQueue
     BlockingQueue<I>
     ArrayBlockingQueue
     ConcurrentLinkedQueue
-    PriorityQueue
-    PriorityBlockingQueue
+    PriorityQueue       优先队列（二叉堆）堆排序
+    PriorityBlockingQueue   线程安全的优先队列
     DelayQueue
     SynchronousQueue
 
     TransferQueue<I>
     LinkedTransferQueue
 
-5. Deque
+5. Deque（双端队列）
     ArrayDeque
     BlockingDeque
     LinkedBlockingDeque
