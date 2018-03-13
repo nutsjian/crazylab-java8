@@ -1,12 +1,11 @@
-package org.crazylab.java8.collections.juc;
+package org.crazylab.java8.collections.juc.demo.list;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
+import org.crazylab.java8.collections.juc.CzyCopyOnWriteArrayList;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CzyCopyOnWriteArrayListExample01 {
+public class CopyOnWriteArrayListDemo01 {
 
     public static void main(String[] args) {
         CzyCopyOnWriteArrayList<String> list = new CzyCopyOnWriteArrayList<>();

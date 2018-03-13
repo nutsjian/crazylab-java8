@@ -1,4 +1,4 @@
-package org.crazylab.java8.collections.juc.list;
+package org.crazylab.java8.collections.juc.demo.list;
 
 public class ConcurrentLinkedListTest {
 

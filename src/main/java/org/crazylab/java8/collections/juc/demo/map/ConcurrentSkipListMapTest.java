@@ -1,4 +1,4 @@
-package org.crazylab.java8.collections.juc.map;
+package org.crazylab.java8.collections.juc.demo.map;
 
 public class ConcurrentSkipListMapTest {
 

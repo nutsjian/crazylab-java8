@@ -10,42 +10,22 @@ import java.util.function.UnaryOperator;
 public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Cloneable, java.io.Serializable {
     private static final long serialVersionUID = 8673264195747942595L;
 
-    /** The lock protecting all mutators */
     final transient ReentrantLock lock = new ReentrantLock();
 
-    /** The array, accessed only via getArray/setArray. */
     private transient volatile Object[] array;
 
-    /**
-     * Gets the array.  Non-private so as to also be accessible
-     * from CopyOnWriteArraySet class.
-     */
     final Object[] getArray() {
         return array;
     }
 
-    /**
-     * Sets the array.
-     */
     final void setArray(Object[] a) {
         array = a;
     }
 
-    /**
-     * Creates an empty list.
-     */
     public CzyCopyOnWriteArrayList() {
         setArray(new Object[0]);
     }
 
-    /**
-     * Creates a list containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.
-     *
-     * @param c the collection of initially held elements
-     * @throws NullPointerException if the specified collection is null
-     */
     public CzyCopyOnWriteArrayList(Collection<? extends E> c) {
         Object[] elements;
         if (c.getClass() == CzyCopyOnWriteArrayList.class)
@@ -59,51 +39,22 @@ public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Clonea
         setArray(elements);
     }
 
-    /**
-     * Creates a list holding a copy of the given array.
-     *
-     * @param toCopyIn the array (a copy of this array is used as the
-     *        internal array)
-     * @throws NullPointerException if the specified array is null
-     */
     public CzyCopyOnWriteArrayList(E[] toCopyIn) {
         setArray(Arrays.copyOf(toCopyIn, toCopyIn.length, Object[].class));
     }
 
-    /**
-     * Returns the number of elements in this list.
-     *
-     * @return the number of elements in this list
-     */
     public int size() {
         return getArray().length;
     }
 
-    /**
-     * Returns {@code true} if this list contains no elements.
-     *
-     * @return {@code true} if this list contains no elements
-     */
     public boolean isEmpty() {
         return size() == 0;
     }
 
-    /**
-     * Tests for equality, coping with nulls.
-     */
     private static boolean eq(Object o1, Object o2) {
         return (o1 == null) ? o2 == null : o1.equals(o2);
     }
 
-    /**
-     * static version of indexOf, to allow repeated calls without
-     * needing to re-acquire array each time.
-     * @param o element to search for
-     * @param elements the array
-     * @param index first index to search
-     * @param fence one past last index to search
-     * @return index of element, or -1 if absent
-     */
     private static int indexOf(Object o, Object[] elements,
                                int index, int fence) {
         if (o == null) {
@@ -118,13 +69,6 @@ public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Clonea
         return -1;
     }
 
-    /**
-     * static version of lastIndexOf.
-     * @param o element to search for
-     * @param elements the array
-     * @param index first index to search
-     * @return index of element, or -1 if absent
-     */
     private static int lastIndexOf(Object o, Object[] elements, int index) {
         if (o == null) {
             for (int i = index; i >= 0; i--)
@@ -138,83 +82,31 @@ public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Clonea
         return -1;
     }
 
-    /**
-     * Returns {@code true} if this list contains the specified element.
-     * More formally, returns {@code true} if and only if this list contains
-     * at least one element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
-     *
-     * @param o element whose presence in this list is to be tested
-     * @return {@code true} if this list contains the specified element
-     */
     public boolean contains(Object o) {
         Object[] elements = getArray();
         return indexOf(o, elements, 0, elements.length) >= 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int indexOf(Object o) {
         Object[] elements = getArray();
         return indexOf(o, elements, 0, elements.length);
     }
 
-    /**
-     * Returns the index of the first occurrence of the specified element in
-     * this list, searching forwards from {@code index}, or returns -1 if
-     * the element is not found.
-     * More formally, returns the lowest index {@code i} such that
-     * <tt>(i&nbsp;&gt;=&nbsp;index&nbsp;&amp;&amp;&nbsp;(e==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;e.equals(get(i))))</tt>,
-     * or -1 if there is no such index.
-     *
-     * @param e element to search for
-     * @param index index to start searching from
-     * @return the index of the first occurrence of the element in
-     *         this list at position {@code index} or later in the list;
-     *         {@code -1} if the element is not found.
-     * @throws IndexOutOfBoundsException if the specified index is negative
-     */
     public int indexOf(E e, int index) {
         Object[] elements = getArray();
         return indexOf(e, elements, index, elements.length);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int lastIndexOf(Object o) {
         Object[] elements = getArray();
         return lastIndexOf(o, elements, elements.length - 1);
     }
 
-    /**
-     * Returns the index of the last occurrence of the specified element in
-     * this list, searching backwards from {@code index}, or returns -1 if
-     * the element is not found.
-     * More formally, returns the highest index {@code i} such that
-     * <tt>(i&nbsp;&lt;=&nbsp;index&nbsp;&amp;&amp;&nbsp;(e==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;e.equals(get(i))))</tt>,
-     * or -1 if there is no such index.
-     *
-     * @param e element to search for
-     * @param index index to start searching backwards from
-     * @return the index of the last occurrence of the element at position
-     *         less than or equal to {@code index} in this list;
-     *         -1 if the element is not found.
-     * @throws IndexOutOfBoundsException if the specified index is greater
-     *         than or equal to the current size of this list
-     */
     public int lastIndexOf(E e, int index) {
         Object[] elements = getArray();
         return lastIndexOf(e, elements, index);
     }
 
-    /**
-     * Returns a shallow copy of this list.  (The elements themselves
-     * are not copied.)
-     *
-     * @return a clone of this list
-     */
     public Object clone() {
         try {
             @SuppressWarnings("unchecked")
@@ -228,62 +120,11 @@ public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Clonea
         }
     }
 
-    /**
-     * Returns an array containing all of the elements in this list
-     * in proper sequence (from first to last element).
-     *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this list.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
-     *
-     * <p>This method acts as bridge between array-based and collection-based
-     * APIs.
-     *
-     * @return an array containing all the elements in this list
-     */
     public Object[] toArray() {
         Object[] elements = getArray();
         return Arrays.copyOf(elements, elements.length);
     }
 
-    /**
-     * Returns an array containing all of the elements in this list in
-     * proper sequence (from first to last element); the runtime type of
-     * the returned array is that of the specified array.  If the list fits
-     * in the specified array, it is returned therein.  Otherwise, a new
-     * array is allocated with the runtime type of the specified array and
-     * the size of this list.
-     *
-     * <p>If this list fits in the specified array with room to spare
-     * (i.e., the array has more elements than this list), the element in
-     * the array immediately following the end of the list is set to
-     * {@code null}.  (This is useful in determining the length of this
-     * list <i>only</i> if the caller knows that this list does not contain
-     * any null elements.)
-     *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
-     *
-     * <p>Suppose {@code x} is a list known to contain only strings.
-     * The following code can be used to dump the list into a newly
-     * allocated array of {@code String}:
-     *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
-     *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
-     *
-     * @param a the array into which the elements of the list are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing all the elements in this list
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this list
-     * @throws NullPointerException if the specified array is null
-     */
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T a[]) {
         Object[] elements = getArray();
@@ -305,21 +146,10 @@ public class CzyCopyOnWriteArrayList<E> implements List<E>, RandomAccess, Clonea
         return (E) a[index];
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     */
     public E get(int index) {
         return get(getArray(), index);
     }
 
-    /**
-     * Replaces the element at the specified position in this list with the
-     * specified element.
-     *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     */
     public E set(int index, E element) {
         final ReentrantLock lock = this.lock;
         lock.lock();

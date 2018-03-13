@@ -1,0 +1,22 @@
+1、fifo、lifo 名词解释
+---------------------------------------------
+fifo = First In First Out
+lifo = Last In First Out
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

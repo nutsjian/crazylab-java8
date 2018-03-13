@@ -37,3 +37,17 @@ https://www.cnblogs.com/xdouby/p/6793184.html
 
 如何看待代码中滥用HashMap？
 https://www.zhihu.com/question/28119895
+
+高性能队列——Disruptor
+https://tech.meituan.com/disruptor.html
+
+Java线程池核心实现原理和源码解析
+https://coderknock.com/blog/2017/05/02/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%A0%B8%E5%BF%83%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%92%8C%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88ThreadPoolExecutor%EF%BC%89.html
+
+常用数据结构及其算法的Java实现
+https://github.com/githubofrico/DataStructure
+
+
+https://github.com/waylau/distributed-systems-technologies-and-cases-analysis
+
+https://wizardforcel.gitbooks.io/modern-java/content/ch8.html

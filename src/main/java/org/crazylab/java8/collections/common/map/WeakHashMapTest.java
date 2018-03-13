@@ -15,8 +15,11 @@ public class WeakHashMapTest {
         String w1 = new String("one");
         String w2 = new String("two");
         String w3 = new String("three");
+//        String w1 = "one";
+//        String w2 = "two";
+//        String w3 = "three";
         // 新建WeakHashMap
-        Map wmap = new WeakHashMap();
+        Map<String, String> wmap = new WeakHashMap<>();
 
         // 添加键值对
         wmap.put(w1, "w1");
@@ -31,7 +34,7 @@ public class WeakHashMapTest {
         System.out.printf("contains key five : %s\n",wmap.containsKey("five"));
 
         // containsValue(Object value) :是否包含值value
-        System.out.printf("contains value 0 : %s\n",wmap.containsValue(new Integer(0)));
+        System.out.printf("contains value 0 : %s\n",wmap.containsValue(0));
 
         // remove(Object key) ： 删除键key对应的键值对
         wmap.remove("three");
@@ -46,6 +49,9 @@ public class WeakHashMapTest {
         // 内存回收。这里，会回收WeakHashMap中与“w1”对应的键值对
         System.gc();
 
+        try {
+            Thread.sleep(10000);
+        } catch (Exception e) {}
         // 遍历WeakHashMap
         Iterator iter = wmap.entrySet().iterator();
         while (iter.hasNext()) {
