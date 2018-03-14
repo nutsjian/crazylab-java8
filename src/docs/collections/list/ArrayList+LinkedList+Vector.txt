@@ -25,3 +25,4 @@ LinkedList:
 
 Vector:
     1. 本质是一个 Object[] elementData，所有数据都在同一个地址上
+    2. 线程安全，在方法上简单粗暴的加上 synchronized
