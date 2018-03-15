@@ -1,0 +1,37 @@
+1. 什么是类变量、全局变量、局部变量
+    类变量（static 修饰）
+    全局变量（类上，方法外声明的变量）
+    局部变量（方法内声明并初始化的变量）
+
+
+2. 什么是 init、clinit
+    init：通过 new 关键字创建对象实例的时候调用该对象的构造器方法触发的 init 方法。
+    clinit：是类构造器方法，在类加载过程中初始化阶段会调用的方法。是类构造器对静态变量、静态代码块进行初始化。
+
+    public class A {
+        private static int a = 1;   // <clinit>
+
+        private int b = 3;  // <init>
+
+        private static final int c = 9; // <编译器进入常量池> 既不在 init 中，也不再 clinit 中初始化
+
+        public A() {    // 构造方法
+            // <init>
+        }
+
+        static {    // 静态代码块
+            // <clinit>
+        }
+    }
+
+    另外：<clinit>() 方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块（static{}）中的语句合并产生的，编译器收集
+    的顺序是由源文件中出现的顺序所决定的，静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静
+    态语句块可以赋值，但是不能访问。如下代码：
+
+    public class ClinitTest {
+        static {
+            i = 0;                      // 可以对定义在 static{} 代码块后面的静态变量赋值
+            System.out.println(i);      // 但是无法访问，会提示“非法向前引用”Illegal forward reference
+        }
+        private static int i = 1;       // 定义在 static{} 代码块后面的静态变量
+    }
