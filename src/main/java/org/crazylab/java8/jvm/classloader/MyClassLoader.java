@@ -13,4 +13,7 @@ public class MyClassLoader extends ClassLoader {
         }
     }
 
+    private byte[] getClassBytes(String name) {
+        return new byte[0];
+    }
 }
