@@ -161,9 +161,9 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
         // 内部类
         static final class SNode {
             // 下一个结点
-            volatile CzySynchronousQueue.TransferStack.SNode next;        // next node in stack
+            volatile SNode next;        // next node in stack
             // 相匹配的结点
-            volatile CzySynchronousQueue.TransferStack.SNode match;       // the node matched to this
+            volatile SNode match;       // the node matched to this
             // 等待的线程
             volatile Thread waiter;     // to control park/unpark
             Object item;                // data; or null for REQUESTs
@@ -178,7 +178,7 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
                 this.item = item;
             }
 
-            boolean casNext(CzySynchronousQueue.TransferStack.SNode cmp, CzySynchronousQueue.TransferStack.SNode val) {
+            boolean casNext(SNode cmp, SNode val) {
                 return cmp == next &&
                         UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
             }
@@ -191,7 +191,7 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
              * @param s the node to match
              * @return true if successfully matched to s
              */
-            boolean tryMatch(CzySynchronousQueue.TransferStack.SNode s) {
+            boolean tryMatch(SNode s) {
                 // 本结点的 match 域为 null 并且比较并替换 match 域成功
 
                 // UNSAFE.compareAndSwapObject()
@@ -241,7 +241,7 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
             static {
                 try {
                     UNSAFE = sun.misc.Unsafe.getUnsafe();
-                    Class<?> k = CzySynchronousQueue.TransferStack.SNode.class;
+                    Class<?> k = SNode.class;
                     matchOffset = UNSAFE.objectFieldOffset
                             (k.getDeclaredField("match"));
                     nextOffset = UNSAFE.objectFieldOffset
@@ -254,9 +254,9 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
 
         /** The head (top) of the stack */
         // 表示头结点
-        volatile CzySynchronousQueue.TransferStack.SNode head;
+        volatile SNode head;
 
-        boolean casHead(CzySynchronousQueue.TransferStack.SNode h, CzySynchronousQueue.TransferStack.SNode nh) {
+        boolean casHead(SNode h, SNode nh) {
             return h == head &&
                     UNSAFE.compareAndSwapObject(this, headOffset, h, nh);
         }
@@ -461,7 +461,7 @@ public class CzySynchronousQueue<E> extends AbstractQueue<E>
         /**
          * Unlinks s from the stack.
          */
-        void clean(CzySynchronousQueue.TransferStack.SNode s) {
+        void clean(SNode s) {
             s.item = null;   // forget item
             s.waiter = null; // forget thread
 
